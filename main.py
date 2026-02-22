@@ -3,6 +3,7 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 from datetime import datetime
 import pandas as pd
 from collections import defaultdict
+import argparse
 
 def pluralize_years(years):
     last_digit = years % 10
@@ -17,18 +18,29 @@ def pluralize_years(years):
     return "лет"
 
 def main():
-    df = pd.read_excel('wine_catalog.xlsx', engine='openpyxl')
+    parser = argparse.ArgumentParser(description='Генератор сайта винодельни')
+    parser.add_argument(
+        '--data-path',
+        type=str,
+        default='wine_catalog.xlsx',
+        help='Путь к Excel-файлу с данными о винах'
+    )
+    args = parser.parse_args()
+    
+    df = pd.read_excel(args.data_path, engine='openpyxl')
     df = df.fillna('')
     
     grouped_wines = defaultdict(list)
     
     for _, row in df.iterrows():
+        is_special = (row['Акция'] == 'Выгодное предложение')
+        
         wine = {
-            'Название': row['Название'],
-            'Сорт': row['Сорт'],
-            'Цена': row['Цена'],
-            'Картинка': row['Картинка'],
-            'Выгодное предложение': (row['Акция'] == 'Выгодное предложение'),
+            'name': row['Название'],
+            'grape': row['Сорт'],
+            'price': row['Цена'],
+            'image': row['Картинка'],
+            'is_special': is_special,
         }
         grouped_wines[row['Категория']].append(wine)
     
@@ -54,6 +66,7 @@ def main():
     server = HTTPServer(('0.0.0.0', 8000), SimpleHTTPRequestHandler)
     print(f"Сайт: http://127.0.0.1:8000/index.html")
     print(f"Возраст: {age} {pluralize_years(age)}")
+    print(f"Данные: {args.data_path}")
     server.serve_forever()
 
 if __name__ == '__main__':
