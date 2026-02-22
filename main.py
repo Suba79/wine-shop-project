@@ -18,7 +18,7 @@ def pluralize_years(years):
 
 
 try:
-    df = pd.read_excel('wine3.xlsx', engine='openpyxl')
+    df = pd.read_excel('wine_catalog.xlsx', engine='openpyxl')
     df = df.fillna('')
     
     print(f"Загружено {len(df)} записей")
