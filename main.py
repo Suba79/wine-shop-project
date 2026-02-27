@@ -52,8 +52,9 @@ def main():
     env.globals['pluralize'] = pluralize_years
     template = env.get_template('template.html')
     
+    FOUNDATION_YEAR = 1920
     current_year = datetime.now().year
-    age = current_year - 1920
+    age = current_year - FOUNDATION_YEAR
     
     rendered_page = template.render(
         age=age,
