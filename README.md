@@ -38,11 +38,10 @@ copy wine_catalog.xlsx my_wines.xlsx  # для Windows
 ```
 2. Откройте `my_wines.xlsx` в Excel или любом редакторе таблиц
 
-3. Заполните своими данными, сохраняя структуру колонок
+3. Запустите программу с указанием пути к вашему файлу:
 
-4. В файле `main.py` замените название файла:
-``` python
-df = pd.read_excel('my_wines.xlsx', engine='openpyxl')
+``` bash
+python main.py --data-path my_wines.xlsx
 ```
 
 ### 5. Запустите генерацию сайта и сервер
