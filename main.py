@@ -58,7 +58,7 @@ def main():
     
     rendered_page = template.render(
         age=age,
-        grouped_wines=dict(grouped_wines)
+        grouped_wines=grouped_wines
     )
     
     with open('index.html', 'w', encoding="utf8") as file:
